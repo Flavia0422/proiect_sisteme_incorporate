@@ -6,10 +6,7 @@
 int main(void) {
     
     Timer0_Init();
-
-    
     //GPIO_Init(LED_BUILTIN, GPIO_OUTPUT);
-
 
     GPIO_Init(D12, GPIO_OUTPUT);
      GPIO_Init(D11, GPIO_OUTPUT);
@@ -21,13 +18,13 @@ int main(void) {
 
     while (1) {
             
-      /* if (Millis() - last_time >= 1000) {
+       /*if (Millis() - last_time >= 1000) {
             last_time = Millis();
             GPIO_Toggle(LED_BUILTIN);
         }*/
         
         //problema semafor
-        /*
+        
          GPIO_Write(D12,GPIO_HIGH);
          Delay(2000);
          GPIO_Write(D11,GPIO_HIGH);
@@ -47,37 +44,6 @@ int main(void) {
         GPIO_Write(D11,GPIO_HIGH);
          Delay(150);
         GPIO_Write(D11,GPIO_LOW);
-    */
-    
-    //prima cerinta: led cu 3 frecvente diferite
-for( i=0 ;i<10;i++){
-    GPIO_Write(D12,GPIO_HIGH);
-    Delay(50);
-    GPIO_Write(D12,GPIO_LOW);
-    Delay(50);
-    }
-Delay(500);
-for( i=0 ;i<10;i++){
-    GPIO_Write(D12,GPIO_HIGH);
-    Delay(150);
-    GPIO_Write(D12,GPIO_LOW);
-    Delay(150);
-    }
-Delay(500);
-for( i=0 ;i<10;i++){
-    GPIO_Write(D12,GPIO_HIGH);
-    Delay(300);
-    GPIO_Write(D12,GPIO_LOW);
-    Delay(300);
-    }
-    Delay(500);
-
-    
-
-
-
-
-    
 
     }
 }

@@ -6,9 +6,9 @@ F_CPU = 16000000UL
 
 # Programmer Settings
 PROGRAMMER = arduino
-PORT = /dev/cu.usbserial-2140
+PORT = COM5
 BAUD = 57600
-# BAUD = 115200
+#BAUD = 115200
 
 # Board Selection (default to nano)
 BOARD ?= nano
@@ -35,7 +35,7 @@ else
 endif
 
 # Source Files
-SRC = src/main.c drivers/gpio/gpio.c drivers/interrupt/external_interrupt.c drivers/timer/timer0.c drivers/timer/timer1.c drivers/timer/timer2.c drivers/pwm/pwm.c drivers/eeprom/eeprom.c drivers/adc/adc.c utils/delay.c
+SRC = src/lab4intreruperi.c drivers/gpio/gpio.c drivers/interrupt/external_interrupt.c drivers/timer/timer0.c drivers/timer/timer1.c drivers/timer/timer2.c drivers/pwm/pwm.c drivers/eeprom/eeprom.c drivers/adc/adc.c utils/delay.c
 
 # Object Files
 # Replace .c extension with .o and prepend OBJDIR, keeping directory structure
