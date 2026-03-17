@@ -7,18 +7,18 @@
 int main(void) {
     PWM_Init(GPIO_PORTB, 1, 50);
 
-    uint8_t duty = 13; // Start at 0°
+    uint8_t duty = 13; // 
     int8_t step = 2;
 
     while(1) {
         PWM_SetDutyCycle(GPIO_PORTB, 1, duty);
-        Delay(500); // Pauză lungă pentru mișcare lină
+        Delay(500); 
 
         duty += step;
 
-        if (duty >= 26) { // 180°
+        if (duty >= 26) { // 180
             step = -2;
-        } else if (duty <= 13) { // 0°
+        } else if (duty <= 13) { // 0
             step = 2;
         }
     }
