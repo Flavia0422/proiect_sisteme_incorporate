@@ -22,21 +22,21 @@ void set_position(uint16_t pulse_us) {
 int main(void) {
     servo_init();
     
-    _delay_ms(1000);
+    Delay(1000);
 
     for (int i = 0; i < 3; i++) {
         // Poziția A (Maxim Stânga )
         set_position(700); 
-        _delay_ms(PAUZA_MISCARE); 
+        Delay(PAUZA_MISCARE); 
 
         // Poziția B (Maxim Dreapta )
         set_position(2300); 
-        _delay_ms(PAUZA_MISCARE); 
+        Delay(PAUZA_MISCARE); 
     }
 
     // Revenire la centru după finalizare
     set_position(1500);
-    _delay_ms(PAUZA_MISCARE);
+    Delay(PAUZA_MISCARE);
 
     TCCR1A &= ~(1 << COM1A1); 
 
