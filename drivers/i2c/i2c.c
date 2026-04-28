@@ -36,8 +36,14 @@ uint8_t I2C_Start(void) {
     TWCR = (1 << TWINT) | (1 << TWSTA) | (1 << TWEN);
     i2c_wait();
 
- //.....
-
+uint8_t status = TWSR & 0xF8;//masca pentru a extrage doar primii 5 biti (statusul)
+// 0xF8 = 1111 1000, astfel eliminam ultimii 3 biti care pot 
+//contine informatii despre adresa sau date, lasand doar codul de status relevant pentru verificare
+    return (status == 0x08 || status == 0x10) ? 1 : 0;
+    //din datasheet:
+    //0x08 = START transmitted
+    //0x10 = Repeated START transmitted
+//succes daca START sau repeated START a fost transmis
     
 }
 
