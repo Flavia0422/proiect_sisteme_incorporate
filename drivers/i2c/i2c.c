@@ -47,6 +47,23 @@ uint8_t status = TWSR & 0xF8;//masca pentru a extrage doar primii 5 biti (status
     
 }
 
-void I2C_Stop(void) {}
+void I2C_Stop(void) {
+    //din datasheet: transmit STOP condition
+    TWCR = (1 << TWINT) | (1 << TWSTO) | (1 << TWEN); 
+    // linia asta seteaza bitii necesari pentru a transmite o conditie de STOP pe bus-ul I2C
+    // TWINT = 1 pentru a clear flag-ul si a permite continuarea operatiunii
+    // TWSTO = 1 pentru a indica ca vrem sa transmitem o conditie de STOP
+    // TWEN = 1 pentru a asigura ca TWI este in continuare activat
+    
+}
 
-uint8_t I2C_Write(uint8_t data) {}
+uint8_t I2C_Write(uint8_t data) {
+    //din datasheet: load data into TWDR register. Clear TWINT to start transmission of data
+    TWDR = data;
+    TWCR = (1<< TWINT) | (1<< TWEN);
+    i2c_wait();
+    uint8_t status = TWSR & 0xF8; //masca pentru a extrage doar primii 5 biti (statusul)
+    return (status == 0x18 || status == 0x28) ? 1 : 0;
+    
+
+}
