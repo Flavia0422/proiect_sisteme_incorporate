@@ -48,3 +48,38 @@ static const uint8_t font5x7[][5] = {
     {0x07,0x08,0x70,0x08,0x07}, // 'Y'
     {0x61,0x51,0x49,0x45,0x43}, // 'Z'
 };
+
+static void ssd1306_cmd(uint8_t cmd) { // functie pentru a trimite o comanda catre display folosind protocolul I2C
+    // apelare a functiilor i2c pentru a transmite comanda
+    I2C_Start(SSD1306_ADDR);
+    I2C_Write(SSD1306_CMD);
+    I2C_Write(cmd);
+    I2C_Stop();
+}
+
+static void ssd1306_data(uint8_t data) { 
+    // functie pentru a trimite un byte de date catre display
+    I2C_Start(SSD1306_ADDR);
+    I2C_Write(SSD1306_DATA);
+    I2C_Write(data);
+    I2C_Stop();
+}
+
+void display_init(void)
+{
+   I2C_Init(); // initializare modul I2C
+    // secventa de initializare conform datasheet-ului SSD1306
+    ssd1306_cmd(0xAE); // pentru display OFF
+    ssd1306_cmd(0xD5); // setare frecventa de refresh
+    ssd1306_cmd(0x80); // valoarea pentru clock divide
+    ssd1306_cmd(0xA8); // setare inaltime display
+    ssd1306_cmd(0x3F); // valoarea pentru 64 pixeli
+
+
+}
+
+void Display_Clear(void) { // functie pentru a goli bufferul de date (stergere ecran)
+
+  memset(buffer, 0, sizeof(buffer));
+
+}
