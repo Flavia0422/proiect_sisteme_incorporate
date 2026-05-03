@@ -74,6 +74,30 @@ void display_init(void)
     ssd1306_cmd(0x80); // valoarea pentru clock divide
     ssd1306_cmd(0xA8); // setare inaltime display
     ssd1306_cmd(0x3F); // valoarea pentru 64 pixeli
+    ssd1306_cmd(0xD3);//setare offset vertical
+    ssd1306_cmd(0x00);//offset 0 -fara deplasare
+    ssd1306_cmd(0x40); //setare start linie
+    ssd1306_cmd(0x8D);//setare charge pump-adica modul de alimentare
+    ssd1306_cmd(0x14);//activare a charge pump-ului pentru a putea alimenta display-ul cu tensiunea necesara
+    ssd1306_cmd(0x20); //setare mod de adresare orizontala
+    ssd1306_cmd(0x00);//tot pentru mod orizontal - nu folosim paginare sau adresare verticala
+    ssd1306_cmd(0xA1);//segment remap -pentru a inversa ordinea coloanelor (col 127 devine col 0) , deoarece in modul orizontal adresa incepe de la col 0
+    //in modul orizontal, adresa incepe de la col 0, dar pentru a avea o orientare corecta a display-ului, segment remap este necesar pentru a face ca col 127 sa devina col 0
+    //adica se face o oglindire pe verticala a coloanelor, astfel incat textul sa fie afisat corect
+    ssd1306_cmd(0xC8);//COM scan direction -pentru a inversa ordinea paginilor (pagina 7 devine pagina 0) , deoarece in modul orizontal adresa incepe de la pagina 0
+    ssd1306_cmd(0xDA);//COM pins- pentru a seta configuratia pinilor COM (conexiunile dintre driverul de display si matricea de pixeli)
+    ssd1306_cmd(0x12);//valoarea pentru configuratia COM -cu 64 pixeli inaltime
+    ssd1306_cmd(0x81); //setare contrast
+    ssd1306_cmd(0xCF); //valoarea pentru contrast -ajustare pentru a avea o luminozitate buna
+    ssd1306_cmd(0xD9); //setare pre-charge period
+    ssd1306_cmd(0xF1); //valoarea pentru pre-charge-ajustare pentru a avea echilibru intre luminozitate si consum
+    ssd1306_cmd(0xDB); //setare VCOMH deselect level-adica nivelul de tensiune pentru semnalul VCOMH, care afecteaza contrastul si stabilitatea imaginii
+    ssd1306_cmd(0x40); //valoarea pentru VCOMH - pentru a avea o imagine stabila 
+    ssd1306_cmd(0xA4); //se seteaza pentru a afisa continutul bufferului (daca nu era setat, display-ul ar ignora datele trimise si ar ramane negru)
+    ssd1306_cmd(0xA6);//setare pentru a afisa pixeli normali (daca nu era setat, display-ul ar afisa pixeli inversati, adica 0 ar fi alb si 1 ar fi negru)
+    ssd1306_cmd(0xAF); //pentru display ON
+    Display_Clear(); // golire buffer pentru a incepe cu un ecran curat
+Display_Update();//actualizare display pentru a reflecta bufferul gol (afisare ecran curat)
 
 
 }
@@ -81,5 +105,21 @@ void display_init(void)
 void Display_Clear(void) { // functie pentru a goli bufferul de date (stergere ecran)
 
   memset(buffer, 0, sizeof(buffer));
+
+}
+
+void Display_Update(void) 
+{
+for(uint8_t page = 0; page<DISPLAY_PAGES;page++)
+{
+    ssd1306_cmd(0xB0+page);//setare a paginii curente
+    ssd1306_cmd(0x10);//setare a adresei pt coloana(partea superioara) -primii 4 biti
+    ssd1306_cmd(0x00);//setare a adresei pt coloana(partea de jos)-ultimii 4 biti
+
+
+//.....
+
+
+}
 
 }
