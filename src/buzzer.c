@@ -1,20 +1,34 @@
-
 #include "drivers/gpio/gpio.h"
-#include "drivers/timer/timer0.h"
 #include "bsp/nano.h"
 #include "utils/delay.h"
 
-int main(void) {
+#define BUZZER  A0
+
+//TESTARE SUNETE BUZZER
+void buzzer(void) {
     
-    GPIO_Init(A0, GPIO_OUTPUT);
-    GPIO_Write(A0, GPIO_LOW);
+    GPIO_Write(BUZZER, GPIO_HIGH); Delay(50);
+    GPIO_Write(BUZZER, GPIO_LOW);  Delay(50);
+    GPIO_Write(BUZZER, GPIO_HIGH); Delay(50);
+    GPIO_Write(BUZZER, GPIO_LOW);  Delay(200);
+
+    
+    GPIO_Write(BUZZER, GPIO_HIGH); Delay(50);
+    GPIO_Write(BUZZER, GPIO_LOW);  Delay(50);
+    GPIO_Write(BUZZER, GPIO_HIGH); Delay(50);
+    GPIO_Write(BUZZER, GPIO_LOW);  Delay(200);
+
+    
+    GPIO_Write(BUZZER, GPIO_HIGH); Delay(600);
+    GPIO_Write(BUZZER, GPIO_LOW);
+}
+
+int main(void) {
+    GPIO_Init(BUZZER, GPIO_OUTPUT);
+    GPIO_Write(BUZZER, GPIO_LOW);
 
     while (1) {
-        
-        GPIO_Write(A0, GPIO_HIGH);
-        Delay(100);
-        
-        GPIO_Write(A0, GPIO_LOW);
-        Delay(500);
+        buzzer();
+        Delay(2000);
     }
 }
