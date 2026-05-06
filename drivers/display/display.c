@@ -186,11 +186,25 @@ for(uint8_t page = 0; page<DISPLAY_PAGES;page++)
     ssd1306_cmd(0xB0+page);//setare a paginii curente
     ssd1306_cmd(0x10);//setare a adresei pt coloana(partea superioara) -primii 4 biti
     ssd1306_cmd(0x00);//setare a adresei pt coloana(partea de jos)-ultimii 4 biti
+ 
 
-
-//.....
-
+for ( uint8_t x = 0; x<DISPLAY_WIDTH;x++)
+{
+    ssd1306_data(buffer[page][x]);//trimitere a datelor din buffer pentru pagina curenta
 
 }
 
+} }
+void Display_Char(uint8_t x, uint8_t page, char c)
+{
+    if (c<32 || c>126) 
+    c= ' '; //daca caracterul nu este in intervalul de caractere suportate, se inlocuieste cu spatiu
+    uint8_t idx = c-32;
+
+    
+}
+
+void Display_Print()
+{
+    
 }
