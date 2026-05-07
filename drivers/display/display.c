@@ -201,10 +201,26 @@ void Display_Char(uint8_t x, uint8_t page, char c)
     c= ' '; //daca caracterul nu este in intervalul de caractere suportate, se inlocuieste cu spatiu
     uint8_t idx = c-32;
 
-    
+    for (uint8_t i = 0; i < 5; i++) {
+        if( x+i < DISPLAY_WIDTH) //verificare pentru a nu depasi latimea display-ului
+        {
+            buffer[page][x+i] = font5x7[idx][i]; //copiere a datelor caracterului din font in buffer la pozitia specificata
+        }
+    }
+    if(x+5 < DISPLAY_WIDTH) //adaugare a unui spatiu intre caractere pentru o mai buna lizibilitate
+    {
+        buffer[page][x+5] = 0x00; //coloana de spatiu (toate biti 0 pentru a nu afisa nimic)
+    }
 }
 
-void Display_Print()
+void Display_Print(uint8_t x, uint8_t page, const char *str)
 {
-    
+    while(*str)
+    {
+        Display_Char(x,page,*str++); //afisare a fiecarui caracter din string folosind Display_Char, 
+        //incrementand pozitia x pentru fiecare caracter
+        x+=6; //5 pixeli pentru caracter + 1 pixel pentru spatiu
+        if(x >= DISPLAY_WIDTH) //daca se depaseste latimea display-ului
+        break; //se opreste afisarea pentru a evita scrierea in afara bufferului
+    }
 }
