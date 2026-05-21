@@ -122,7 +122,8 @@ static const uint8_t font5x7[][5] = {
 
 static void ssd1306_cmd(uint8_t cmd) { // functie pentru a trimite o comanda catre display folosind protocolul I2C
     // apelare a functiilor i2c pentru a transmite comanda
-    I2C_Start(SSD1306_ADDR);
+    I2C_Start();
+    I2C_Write(SSD1306_ADDR);
     I2C_Write(SSD1306_CMD);
     I2C_Write(cmd);
     I2C_Stop();
@@ -130,7 +131,8 @@ static void ssd1306_cmd(uint8_t cmd) { // functie pentru a trimite o comanda cat
 
 static void ssd1306_data(uint8_t data) { 
     // functie pentru a trimite un byte de date catre display
-    I2C_Start(SSD1306_ADDR);
+    I2C_Start();
+    I2C_Write(SSD1306_ADDR);
     I2C_Write(SSD1306_DATA);
     I2C_Write(data);
     I2C_Stop();
