@@ -124,6 +124,16 @@ extern volatile uint16_t ADC; // 16-bit access
 #define ADPS1 1
 #define ADPS0 0
 
+// I2C / TWI
+#define TWBR  (*(volatile uint8_t*)0xB8)
+#define TWSR  (*(volatile uint8_t*)0xB9)
+#define TWDR  (*(volatile uint8_t*)0xBB)
+#define TWCR  (*(volatile uint8_t*)0xBC)
+#define TWEN  2
+#define TWINT 7
+#define TWSTA 5
+#define TWSTO 4
+
 // Register Bits
 // SREG is defined as a variable in interrupt.h for mocking purposes
 
