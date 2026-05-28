@@ -19,6 +19,8 @@ Found a bug or you just want to contribute to this project ? Please raise an iss
     - **EEPROM**: Read, Write, Update (lifespan-aware).
     - **ADC**: Blocking 10-bit Analog-to-Digital conversion.
     - **PWM**: High-level wrapper for Timer1 (16-bit) and Timer2 (8-bit) PWM generation.
+    - **I2C**: Hardware TWI driver at 400kHz for communication with I2C peripherals.
+    - **Display**: SSD1306 OLED driver with frame buffer, 5x7 font, and text rendering.
 - **Board Support Package (BSP)**: Pin mappings for **Arduino Nano** and **Uno**.
 - **Robust Build System**: `Makefile` for compilation, flashing, and testing.
 - **Host-Based Unit Testing**: Run unit tests on your computer without hardware using register mocking.
@@ -32,9 +34,10 @@ Found a bug or you just want to contribute to this project ? Please raise an iss
 - [x] Interrupt driver
 - [x] Timer driver
 - [x] PWM driver
-- [ ] I2C driver
+- [x] I2C driver
+- [x] SSD1306 OLED display driver
 - [ ] SPI driver
-- [ ] UART driver
+- [x] UART driver
 - [ ] Unit tests
 
 ## Project Structure
@@ -44,7 +47,9 @@ Found a bug or you just want to contribute to this project ? Please raise an iss
 ├── drivers/        # Hardware Abstraction Layer
 │   ├── adc/
 │   ├── eeprom/
+│   ├── display/    # SSD1306 OLED driver
 │   ├── gpio/
+│   ├── i2c/        # Hardware TWI/I2C driver
 │   ├── interrupt/
 │   └── timer/
 ├── src/            # Application source code (main.c)
@@ -86,6 +91,54 @@ This project supports running unit tests on your host machine (Mac/Linux) by moc
 | `make coverage-html` | Generate a visual HTML report of code coverage. |
 
 ![Code Coverage Example](/img/code_coverage_example.png)
+
+## Safe Box Project
+
+This repository includes a complete **AVR-based Safe Box** project built using the drivers above, without any Arduino libraries.
+
+### Overview
+A fully functional electronic safe box controlled by a 4x4 matrix keypad, with visual and audio feedback, an OLED display, and a servo motor as the locking mechanism. The servo motor controls a physical latch that locks and unlocks the box door. The entire circuit is mounted inside a box, making it as close as possible to a real safe box — the keypad and display are visible on the outside, while all the electronics are hidden inside.
+
+### Features
+- **Password protection** — 4-digit PIN set by the user on first boot
+- **PIN change** — while the safe is open, press `*` to set a new PIN at any time
+- **3 attempt limit** — after 3 wrong attempts, a 10-second lockout is triggered
+- **10-second lockout** — RGB LED cycles through colors and a countdown is shown on the OLED display
+- **OLED display** — shows current state, PIN entry progress, remaining attempts and countdown
+- **Buzzer feedback** — short beep on keypress, success melody on correct PIN, alarm pattern on wrong PIN
+- **Green LED** — lights up when the safe is unlocked
+- **Red LED** — lights up on wrong password attempt
+- **RGB LED** — color flow effect during lockout countdown
+
+### Hardware Components
+| Component | Pin |
+|---|---|
+| 4x4 Keypad (rows) | D2, D3, D4, D5 |
+| 4x4 Keypad (cols) | D6, D7, D8, D10 |
+| Servo motor | D9 |
+| RGB Red | D11 |
+| Red LED | D12 |
+| Buzzer | A0 |
+| RGB Blue | A1 |
+| RGB Green | A2 |
+| Green LED | A3 |
+| OLED SDA | A4 |
+| OLED SCL | A5 |
+
+### How it works
+1. On power-on the safe starts **unlocked** — press `*` to set your 4-digit PIN
+2. Enter 4 digits then press `*` to confirm — the safe locks automatically
+3. Enter the correct PIN to unlock
+4. While unlocked, press `*` again to set a new PIN
+5. After 3 wrong attempts the keypad locks for 10 seconds
+
+### Drivers used
+- `drivers/gpio/` — all digital I/O
+- `drivers/pwm/` — servo motor control
+- `drivers/i2c/` — OLED communication
+- `drivers/display/` — SSD1306 text rendering
+- `utils/delay.h` — timing
+
 
 ## Usage Example
 
