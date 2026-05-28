@@ -6,7 +6,7 @@ F_CPU = 16000000UL
 
 # Programmer Settings
 PROGRAMMER = arduino
-PORT = COM4
+PORT = COM5
 BAUD = 57600
 #BAUD = 115200
 
@@ -24,18 +24,20 @@ BINDIR = bin
 
 # Compiler Flags
 CFLAGS = -mmcu=$(MCU) -DF_CPU=$(F_CPU) -Os -Wall -Wextra -std=gnu99
-CFLAGS += -I. -Idrivers/gpio -Idrivers/interrupt -Idrivers/timer -Idrivers/eeprom -Idrivers/adc -Ibsp -Iutils
+CFLAGS += -I. -Idrivers/gpio -Idrivers/interrupt -Idrivers/timer -Idrivers/eeprom -Idrivers/adc -Idrivers/i2c -Idrivers/display -Idrivers/pwm -Ibsp -Iutils -Idrivers/usart
 
 ifeq ($(BOARD), nano)
     CFLAGS += -DBOARD_NANO
 else ifeq ($(BOARD), uno)
     CFLAGS += -DBOARD_UNO
 else
+
     $(error Invalid BOARD specified. Use 'nano' or 'uno')
 endif
 
 # Source Files
-SRC = src/test_lock.c drivers/gpio/gpio.c drivers/interrupt/external_interrupt.c drivers/timer/timer0.c drivers/timer/timer1.c drivers/timer/timer2.c drivers/pwm/pwm.c drivers/eeprom/eeprom.c drivers/adc/adc.c utils/delay.c
+SRC = src/cod_proiect.c drivers/gpio/gpio.c drivers/interrupt/external_interrupt.c drivers/timer/timer0.c drivers/timer/timer1.c drivers/timer/timer2.c drivers/pwm/pwm.c drivers/eeprom/eeprom.c drivers/adc/adc.c utils/delay.c drivers/i2c/i2c.c drivers/display/display.c drivers/usart/usart.c
+
 
 # Object Files
 # Replace .c extension with .o and prepend OBJDIR, keeping directory structure
@@ -55,6 +57,10 @@ directories:
 	@mkdir -p $(OBJDIR)/drivers/timer
 	@mkdir -p $(OBJDIR)/drivers/eeprom
 	@mkdir -p $(OBJDIR)/drivers/adc
+	@mkdir -p $(OBJDIR)/drivers/i2c        
+	@mkdir -p $(OBJDIR)/drivers/display    
+	@mkdir -p $(OBJDIR)/drivers/pwm 
+	@mkdir -p $(OBJDIR)/drivers/usart
 	@mkdir -p $(OBJDIR)/utils
 
 $(TARGET).elf: $(OBJ)
