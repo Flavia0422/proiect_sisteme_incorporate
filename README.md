@@ -1,11 +1,5 @@
 # Embedded Systems Course and Labs for students from Automation and Applied Informatics from Faculty of Automation, Computers and Electronics, University of Craiova
 
-This repository is dedicated to the Embedded Systems course and labs for students from Automation and Applied Informatics from Faculty of Automation, Computers and Electronics, University of Craiova. 
-
-If you are a student: please fork this repository and use it for your labs, homework and course. 
-
-Found a bug or you just want to contribute to this project ? Please raise an issue and/or send a pull request.
-
 [![Run Tests](https://github.com/mamuleanu/embedded-systems-course-atmega328p/actions/workflows/tests.yml/badge.svg)](https://github.com/mamuleanu/embedded-systems-course-atmega328p/actions/workflows/tests.yml)
 
 
